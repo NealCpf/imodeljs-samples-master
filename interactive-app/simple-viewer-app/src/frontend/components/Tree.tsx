@@ -35,6 +35,7 @@ export default function SimpleTreeComponent(props: Props) { // eslint-disable-li
       return new PresentationTreeDataProvider({ imodel, ruleset: RULESET_TREE, pagingSize });
     return undefined;
   }, [imodel]));
+  let test = "111";
   const dataProvider = imodelDataProvider ?? (props as DataProviderProps).dataProvider;
   const modelSource = useTreeModelSource(dataProvider);
   const nodeLoader = usePagedTreeNodeLoader(dataProvider, 20, modelSource);
