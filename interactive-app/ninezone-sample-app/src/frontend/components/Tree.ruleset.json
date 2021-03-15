@@ -1,0 +1,195 @@
+{
+  "$schema": "../../../node_modules/@bentley/presentation-common/Ruleset.schema.json",
+  "id": "simple-viewer-app/Tree",
+  "rules": [
+    {
+      "ruleType": "RootNodes",
+      "autoExpand": true,
+      "specifications": [
+        {
+          "specType": "InstanceNodesOfSpecificClasses",
+          "classes": [
+            {
+              "schemaName": "Electrical_RCM_KKS",
+              "classNames": [
+                "Level0"
+              ]
+            }
+          ],
+          "arePolymorphic": true,
+          "groupByClass": false,
+          "groupByLabel": false,
+          "relatedInstances": [
+            {
+              "relationshipPath": {
+                "relationship": {
+                  "schemaName": "BisCore",
+                  "className": "ModelModelsElement"
+                },
+                "direction": "Forward",
+                "targetClass": {
+                  "schemaName": "BisCore",
+                  "className": "InformationPartitionElement"
+                }
+              },
+              "alias": "partition",
+              "isRequired": true
+            }
+          ],
+          "instanceFilter": "partition.Parent.Id = parent.ECInstanceId AND NOT this.IsPrivate",
+          "hideIfNoChildren": true
+        }
+      ]
+    },
+    {
+      "ruleType": "ChildNodes",
+      "condition": "ParentNode.IsOfClass(\"Level0\", \"Electrical_RCM_KKS\")",
+      "onlyIfNotHandled": true,
+      "specifications": [
+        {
+          "specType": "RelatedInstanceNodes",
+          "relationshipPaths": [
+            {
+              "relationship": {
+                "schemaName": "Electrical_RCM_KKS",
+                "className": "Level0_Has_Level1"
+              },
+              "direction": "Forward"
+            }
+          ],
+          "instanceFilter": "this.IsOfClass(\"Level1\", \"Electrical_RCM_KKS\")",
+          "groupByClass": false,
+          "groupByLabel": false,
+          "hideIfNoChildren": false
+        }
+      ]
+    },
+    {
+      "ruleType": "ChildNodes",
+      "condition": "ParentNode.IsOfClass(\"Level1\", \"Electrical_RCM_KKS\")",
+      "onlyIfNotHandled": true,
+      "specifications": [
+        {
+          "specType": "RelatedInstanceNodes",
+          "relationshipPaths": [
+            {
+              "relationship": {
+                "schemaName": "Electrical_RCM_KKS",
+                "className": "Leve1_Has_SourceDevice"
+              },
+              "direction": "Forward"
+            }
+          ],
+          "instanceFilter": "this.IsOfClass(\"DEVICE\", \"Electrical_RCM\")",
+          "groupByClass": false,
+          "groupByLabel": false,
+          "hideIfNoChildren": false
+        }
+      ]
+    },
+    {
+      "ruleType": "ChildNodes",
+      "condition": "ParentNode.IsOfClass(\"DEVICE\", \"Electrical_RCM\")",
+      "onlyIfNotHandled": true,
+      "specifications": [
+        {
+          "specType": "RelatedInstanceNodes",
+          "relationshipPaths": [
+            {
+              "relationship": {
+                "schemaName": "Electrical_RCM",
+                "className": "CABLE_IS_CONNECTED_FROM_SOURCE_DEVICE"
+              },
+              "direction": "Backward"
+            }
+          ],
+          "instanceFilter": "this.IsOfClass(\"CABLE\", \"Electrical_RCM\") ",
+          "groupByClass": false,
+          "groupByLabel": false,
+          "hideIfNoChildren": false
+        }
+      ]
+    },
+    {
+      "ruleType": "ChildNodes",
+      "condition": "ParentNode.IsOfClass(\"CABLE\", \"Electrical_RCM\")",
+      "onlyIfNotHandled": true,
+      "specifications": [
+        {
+          "specType": "RelatedInstanceNodes",
+          "relationshipPaths": [
+            {
+              "relationship": {
+                "schemaName": "Electrical_RCM",
+                "className": "CABLE_IS_CONNECTED_TO_TARGET_DEVICE"
+              },
+              "direction": "Forward"
+            }
+          ],
+          "instanceFilter": "this.IsOfClass(\"DEVICE\", \"Electrical_RCM\")",
+          "groupByClass": false,
+          "groupByLabel": false,
+          "hideIfNoChildren": false
+        }
+      ]
+    },
+    {
+      "ruleType": "ChildNodes",
+      "condition": "ParentNode.IsOfClass(\"CABLE\", \"Electrical_RCM\")",
+      "onlyIfNotHandled": true,
+      "specifications": [
+        {
+          "specType": "RelatedInstanceNodes",
+          "relationshipPaths": [
+            {
+              "relationship": {
+                "schemaName": "Electrical_RCM",
+                "className": "RACEWAY_ITEM_HAS_ROUTED_CABLE"
+              },
+              "direction": "Forward"
+            }
+          ],
+          "instanceFilter": "this.IsOfClass(\"RACEWAY_ITEM\", \"Electrical_RCM\")",
+          "groupByClass": false,
+          "groupByLabel": false,
+          "hideIfNoChildren": false
+        }
+      ]
+    },
+    {
+      "ruleType": "ImageIdOverride",
+      "condition": "ThisNode.IsOfClass(\"Subject\", \"BisCore\")",
+      "imageIdExpression": "IIF(this.Parent.Id = NULL, \"icon-imodel-hollow-2\", \"icon-folder\")"
+    },
+    {
+      "ruleType": "ImageIdOverride",
+      "condition": "ThisNode.IsOfClass(\"Model\", \"BisCore\")",
+      "imageIdExpression": "\"icon-model\""
+    },
+    {
+      "ruleType": "ImageIdOverride",
+      "condition": "ThisNode.IsOfClass(\"CABLE\", \"Electrical_RCM\")",
+      "imageIdExpression": "\"icon-item\""
+    },
+    {
+      "ruleType": "ImageIdOverride",
+      "condition": "ThisNode.IsOfClass(\"DEVICE\", \"Electrical_RCM\")",
+      "imageIdExpression": "\"icon-layers\""
+    },
+    {
+      "ruleType": "ImageIdOverride",
+      "condition": "ThisNode.IsOfClass(\"RACEWAY_ITEM\", \"Electrical_RCM\")",
+      "imageIdExpression": "\"icon-element\""
+    },
+    {
+      "ruleType": "ImageIdOverride",
+      "condition": "ThisNode.IsOfClass(\"Level0\", \"Electrical_RCM_KKS\")",
+      "imageIdExpression": "\"icon-element\""
+    },
+    {
+      "ruleType": "ImageIdOverride",
+      "condition": "ThisNode.IsOfClass(\"Level1\", \"Electrical_RCM_KKS\")",
+      "imageIdExpression": "\"icon-element\""
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../node_modules/@bentley/presentation-common/Ruleset.schema.json",
+  "id": "PropertieRuleSet",
+  "rules": [
+    {
+      "ruleType": "Content",
+      "condition": "SelectedNode.IsOfClass(\"Element\", \"BisCore\")",
+      "onlyIfNotHandled": true,
+      "specifications": [
+        {
+          "specType": "ContentInstancesOfSpecificClasses",
+          "classes": {
+            "schemaName": "BisCore",
+            "classNames": [
+              "Element"
+            ]
+          },
+          "handleInstancesPolymorphically": true
+        }
+      ]
+    }
+  ]
+}
